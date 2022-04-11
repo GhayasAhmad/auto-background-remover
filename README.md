@@ -18,7 +18,7 @@ Add the dependency
 
 ```
 dependencies {
-	        implementation 'com.github.GhayasAhmad:auto-background-remover:Tag'
+	        implementation 'com.github.GhayasAhmad:auto-background-remover:1.0.1'
 	}
 ```
 
