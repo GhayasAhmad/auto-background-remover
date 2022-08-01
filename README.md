@@ -1,8 +1,6 @@
 # Background Remover
 
-This is an android library for removing background from the image.
-
-You have to give the bitmap of the image to this library and the library will return the bitmap with the removed background.
+This is an android library for removing background from the image.You have to give the bitmap of the image to this library and the library will return the bitmap with the removed background.
 
 ## Gradle
 Add it in your root build.gradle at the end of repositories:
