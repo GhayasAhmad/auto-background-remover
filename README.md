@@ -48,6 +48,10 @@ BackgroundRemover.bitmapForProcessing(bitmap, object: OnBackgroundChangeListener
 [![Gmail](https://img.shields.io/badge/-Gmail-c14438?style=flat&logo=Gmail&logoColor=white)](mailto:sheikhghayas47@gmail.com)
 [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?style=flat&logo=Instagram&logoColor=white)](https://www.instagram.com/gcodes._/)
 
+</br>
+<a href="https://www.buymeacoffee.com/ghayas" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+
 
 # 📜 License 
 ```
