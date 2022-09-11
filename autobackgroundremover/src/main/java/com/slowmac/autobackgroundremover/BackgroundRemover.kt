@@ -143,4 +143,5 @@ object BackgroundRemover {
         }
         return result.await()
     }
+
 }
