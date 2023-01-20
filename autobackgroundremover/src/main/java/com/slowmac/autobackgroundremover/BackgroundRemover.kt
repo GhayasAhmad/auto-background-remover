@@ -75,8 +75,6 @@ object BackgroundRemover {
     /**
      * Change the background pixels color to transparent.
      * */
-
-
     private suspend fun removeBackgroundFromImage(
         image: Bitmap
     ): Bitmap {
