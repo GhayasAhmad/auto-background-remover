@@ -75,6 +75,8 @@ object BackgroundRemover {
     /**
      * Change the background pixels color to transparent.
      * */
+
+
     private suspend fun removeBackgroundFromImage(
         image: Bitmap
     ): Bitmap {
@@ -83,6 +85,7 @@ object BackgroundRemover {
                 for (x in 0 until width) {
                     val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
                     if (bgConfidence >= 100) {
+                        image.setHasAlpha(true)
                         image.setPixel(x, y, 0)
                     }
                 }
