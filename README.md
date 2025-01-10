@@ -3,12 +3,12 @@
 Our Android Background Remover Library offers a fast and efficient solution for removing image backgrounds. Simply provide the library with a bitmap, and it will return a new bitmap with the background removed. This library uses advanced image processing algorithms to accurately separate the subject from the background, delivering professional-quality results.
 
 #### Key Features:
-&ensp;•&emsp;Instant Background Removal: Quickly process any bitmap image.\
-&ensp;•&emsp;High Accuracy: Retains sharp edges and minimizes artifacts.\
-&ensp;•&emsp;Fast & Efficient: Optimized for quick image processing.\
-&ensp;•&emsp;Easy Integration: Simple API for seamless integration into Android apps.\
-&ensp;•&emsp;Support for Multiple Formats: Works with a wide range of image types.\
-&ensp;•&emsp;No External APIs: Fully self-contained solution.
+&ensp;•&emsp;**Instant Background Removal:** Quickly process any bitmap image.\
+&ensp;•&emsp;**High Accuracy:** Retains sharp edges and minimizes artifacts.\
+&ensp;•&emsp;**Fast & Efficient:** Optimized for quick image processing.\
+&ensp;•&emsp;**Easy Integration:** Simple API for seamless integration into Android apps.\
+&ensp;•&emsp;**Support for Multiple Formats:** Works with a wide range of image types.\
+&ensp;•&emsp;**No External APIs:** Fully self-contained solution.
 
 Ideal for e-commerce apps, social media platforms, and design tools, this library streamlines background removal without the need for complex setups or external services.
 ## Gradle
