@@ -1,4 +1,4 @@
-# Background Remover
+<h1 align="center">Background Remover</h1>
 
 Our Android Background Remover Library offers a fast and efficient solution for removing image backgrounds. Simply provide the library with a bitmap, and it will return a new bitmap with the background removed. This library uses advanced image processing algorithms to accurately separate the subject from the background, delivering professional-quality results.
 
