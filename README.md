@@ -34,7 +34,7 @@ dependencies {
 
 ## Code:
 
-<img src="https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif" align="right" width="320"/>
+<img src="https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif" align="right" width="190"/>
 
 
 ### Default
