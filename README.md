@@ -34,9 +34,6 @@ dependencies {
 
 ## Code:
 
-<img src="https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif" align="right" width="180"/>
-
-
 ### Default
 
 Default method for simply removing the bacground from the subject from bitmap without trimming the
@@ -58,8 +55,8 @@ BackgroundRemover.bitmapForProcessing(
 
 ```
 
-
-<img src="https://user-images.githubusercontent.com/65961727/189539901-fd0270df-a63f-41df-a810-598805301661.gif" align="right" width="180"/>
+<img src="https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif" width="250px"/>
+</br>
 
 ### Trim Image
 
@@ -83,6 +80,7 @@ BackgroundRemover.bitmapForProcessing(
 
 ```
 
+<img src="https://user-images.githubusercontent.com/65961727/189539901-fd0270df-a63f-41df-a810-598805301661.gif" width="250px"/>
 
 # 👨 Made By
 
