@@ -90,11 +90,6 @@ BackgroundRemover.bitmapForProcessing(
 > [!important]
 > This repository is primarily focused on ensuring the app size remains minimal and does not require the integration of additional Python libraries. For more accurate results or if you prefer solutions involving Python libraries, feel free to contact me.
 
-
-# 👨 Made By
-
-`Ghayas Ahmad`
-
 **Connect with me on**
 </br>
 
