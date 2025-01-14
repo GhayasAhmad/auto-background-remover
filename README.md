@@ -80,9 +80,9 @@ BackgroundRemover.bitmapForProcessing(
 
 ```
 
-| With Trim Image | Without Trim Image |
-| :---: | :---: |
-| ![With Trim Image](https://user-images.githubusercontent.com/65961727/189539901-fd0270df-a63f-41df-a810-598805301661.gif) | ![Without Trim Image](https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif) |
+|                                                               With Trim Image                                                               |                                                               Without Trim Image                                                                |
+|:-------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------:|
+| ![With Trim Image](https://user-images.githubusercontent.com/65961727/189539901-fd0270df-a63f-41df-a810-598805301661.gif){: width="180px" } | ![Without Trim Image](https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif) {: width="180px" } |
 
 
 > [!important]
