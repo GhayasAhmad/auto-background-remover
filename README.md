@@ -85,6 +85,9 @@ BackgroundRemover.bitmapForProcessing(
 | ![With Trim Image](https://user-images.githubusercontent.com/65961727/189539901-fd0270df-a63f-41df-a810-598805301661.gif) | ![Without Trim Image](https://user-images.githubusercontent.com/65961727/189538271-6e4658f5-cc08-45c9-a876-e13a54c2140f.gif) |
 
 
+> [!important]
+> This repository is primarily focused on ensuring the app size remains minimal and does not require the integration of additional Python libraries. For more accurate results or if you prefer solutions involving Python libraries, feel free to contact me.
+
 
 # 👨 Made By
 
