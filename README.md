@@ -100,10 +100,6 @@ BackgroundRemover.bitmapForProcessing(
 
 </br>
 
-If this repository helped you or you found it useful, a small token of appreciation goes a long way! ☕ Click the button below to buy me a coffee and keep the momentum going. Your support means the world!
-
-<a href="https://www.buymeacoffee.com/ghayas" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
-
 # 📜 License
 
 ```
