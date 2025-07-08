@@ -9,6 +9,8 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
 import kotlin.math.roundToInt
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
 
 /**
  * Merges two bitmaps by drawing them on a canvas
@@ -16,7 +18,7 @@ import kotlin.math.roundToInt
  * Source: https://stackoverflow.com/a/40546729
  */
 fun mergeBitmaps(bmp1: Bitmap, bmp2: Bitmap): Bitmap {
-    val merged = Bitmap.createBitmap(bmp1.width, bmp1.height, bmp1.config)
+    val merged = createBitmap(bmp1.width, bmp1.height, bmp1.config ?: Bitmap.Config.ARGB_8888)
     val canvas = Canvas(merged)
     canvas.drawBitmap(bmp1, Matrix(), null)
     canvas.drawBitmap(bmp2, Matrix(), null)
@@ -27,7 +29,7 @@ fun mergeBitmaps(bmp1: Bitmap, bmp2: Bitmap): Bitmap {
  * Resizes a bitmap to the given height and width
  */
 fun resizeBitmap(bmp: Bitmap, width: Int, height: Int): Bitmap {
-    return Bitmap.createScaledBitmap(bmp, width, height, false)
+    return bmp.scale(width, height, false)
 }
 
 /**
