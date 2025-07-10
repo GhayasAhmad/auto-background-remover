@@ -10,6 +10,9 @@ import androidx.core.graphics.drawable.toBitmap
 import com.example.backgroundremoverlibrary.databinding.ActivityMainBinding
 import com.slowmac.autobackgroundremover.BackgroundRemover
 import com.slowmac.autobackgroundremover.OnBackgroundChangeListener
+import com.slowmac.autobackgroundremover.smoothAlphaEdges
+import com.slowmac.autobackgroundremover.smoothEdgesRenderScript
+import com.slowmac.autobackgroundremover.smoothImageEdges
 
 class MainActivity : AppCompatActivity() {
 
@@ -46,10 +49,12 @@ class MainActivity : AppCompatActivity() {
         binding.img.invalidate()
         BackgroundRemover.bitmapForProcessing(
             binding.img.drawable.toBitmap(),
-            true,
+            false,
             object : OnBackgroundChangeListener {
                 override fun onSuccess(bitmap: Bitmap) {
-                    binding.img.setImageBitmap(bitmap)
+                    binding.img.setImageBitmap(
+                        bitmap
+                    )
                 }
 
                 override fun onFailed(exception: Exception) {

@@ -9,7 +9,9 @@ import com.google.mlkit.vision.segmentation.Segmenter
 import com.google.mlkit.vision.segmentation.selfie.SelfieSegmenterOptions
 import kotlinx.coroutines.*
 import java.nio.ByteBuffer
+import java.nio.FloatBuffer
 import kotlin.system.measureTimeMillis
+import androidx.core.graphics.set
 
 
 object BackgroundRemover {
@@ -83,7 +85,7 @@ object BackgroundRemover {
                 for (x in 0 until width) {
                     val bgConfidence = ((1.0 - buffer.float) * 255).toInt()
                     if (bgConfidence >= 100) {
-                        image.setPixel(x, y, 0)
+                        image[x, y] = 0
                     }
                 }
             }
