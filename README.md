@@ -1,6 +1,6 @@
 <h1 align="center">Android Background Remover Library</h1>
 
-# ✨ Android Background Remover Library – Fast, Offline AI Background Removal
+## ✨ Android Background Remover Library – Fast, Offline AI Background Removal
 
 **Android Background Remover** is a high-performance library for automatically removing backgrounds from images in Android apps.  
 Powered by advanced **AI segmentation models**, it delivers accurate, fast, and offline background removal with just a few lines of code.
