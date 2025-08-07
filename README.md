@@ -12,7 +12,7 @@ Powered by advanced **AI segmentation models**, it delivers accurate, fast, and 
 - ✅ **One-Line Background Removal** – Just pass a `Bitmap`, and get a clean, background-free image.
 - 🎯 **High Accuracy & Sharp Edges** – AI-powered mask generation preserves object detail with minimal artifacts.
 - ⚡ **Fast & Lightweight** – Optimized for real-time performance on Android devices.
-- 🔌 **No External API Required** – Works 100% offline — no server or cloud dependency.
+- 🔌 **No External API Required** – Works 100% offline, no server or cloud dependency.
 - 📦 **Easy to Integrate** – Plug-and-play with a clean, developer-friendly API.
 - 🖼️ **Supports Multiple Image Formats** – Compatible with PNG, JPEG, WebP, and more.
 - 🪄 **Optional Transparent Cropping** – Trim empty areas after background removal for cleaner results.
