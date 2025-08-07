@@ -8,6 +8,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BackgroundRemoverLibrary" />
+        android:theme="@style/Theme.BackgroundRemoverLibrary">
+
+
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="subject_segmentation" />
+
+        <meta-data
+            android:name="com.google.mlkit.vision.segmentation.subject.SubjectSegmentationModel"
+            android:value="on_demand" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+    </application>
 
 </manifest>

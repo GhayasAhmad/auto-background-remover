@@ -1,0 +1,194 @@
+package com.slowmac.autobackgroundremover
+
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.util.Log
+import com.google.android.gms.common.moduleinstall.ModuleInstall
+import com.google.android.gms.common.moduleinstall.ModuleInstallClient
+import com.google.android.gms.common.moduleinstall.ModuleInstallRequest
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmentation
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmentationResult
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmenter
+import com.google.mlkit.vision.segmentation.subject.SubjectSegmenterOptions
+import kotlinx.coroutines.CancellableContinuation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.scale
+import androidx.core.graphics.get
+
+class BackgroundRemoverUtils(
+    private val context: Context,
+    private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+) {
+
+    companion object Companion {
+        private const val TAG = "MLKitBackgroundRemover"
+        private const val CONFIDENCE_THRESHOLD = 0.5f
+        private const val MAX_IMAGE_DIMENSION = 1024
+        private const val MODEL_DOWNLOAD_TIMEOUT_SECONDS = 30
+    }
+
+    private val moduleInstallClient: ModuleInstallClient by lazy {
+        ModuleInstall.getClient(context)
+    }
+
+    private val segmenter: SubjectSegmenter by lazy {
+        SubjectSegmentation.getClient(
+            SubjectSegmenterOptions.Builder()
+                .enableForegroundBitmap()
+                .enableForegroundConfidenceMask()
+                .build()
+        )
+    }
+
+    @Volatile private var isModelReady = false
+    @Volatile private var isModelDownloading = false
+
+    suspend fun ensureModelReady(): Boolean = withContext(Dispatchers.IO) {
+        if (isModelReady) return@withContext true
+        if (isModelDownloading) return@withContext false
+
+        isModelDownloading = true
+        val result = downloadModel()
+        isModelDownloading = false
+        isModelReady = result
+        result
+    }
+
+    private suspend fun downloadModel(): Boolean = suspendCancellableCoroutine { cont ->
+        val request = ModuleInstallRequest.newBuilder().addApi(segmenter).build()
+        moduleInstallClient.installModules(request)
+            .addOnSuccessListener { response ->
+                if (response.areModulesAlreadyInstalled()) {
+                    cont.resume(true)
+                } else {
+                    waitForModel(cont)
+                }
+            }
+            .addOnFailureListener {
+                Log.e(TAG, "Model install failed", it)
+                cont.resume(false)
+            }
+    }
+
+    private fun waitForModel(cont: CancellableContinuation<Boolean>) {
+        coroutineScope.launch {
+            repeat(MODEL_DOWNLOAD_TIMEOUT_SECONDS) {
+                if (checkModelAvailable()) {
+                    cont.resume(true)
+                    return@launch
+                }
+                delay(1000)
+            }
+            Log.e(TAG, "Model download timeout.")
+            cont.resume(false)
+        }
+    }
+
+    private suspend fun checkModelAvailable(): Boolean = suspendCoroutine { cont ->
+        val dummyBitmap = createBitmap(100, 100)
+        val inputImage = InputImage.fromBitmap(dummyBitmap, 0)
+        segmenter.process(inputImage)
+            .addOnSuccessListener {
+                dummyBitmap.recycle()
+                cont.resume(true)
+            }
+            .addOnFailureListener {
+                dummyBitmap.recycle()
+                cont.resume(false)
+            }
+    }
+
+    suspend fun removeBackground(bitmap: Bitmap): Bitmap = withContext(Dispatchers.IO) {
+        if (!isModelReady) throw IllegalStateException("Model is not ready")
+
+        val input = scaleBitmapIfNeeded(bitmap)
+        val inputImage = InputImage.fromBitmap(input, 0)
+        val result = segmenter.process(inputImage).await()
+        val masked = applyMask(input, result)
+
+        if (input !== bitmap) {
+            val scaled = masked.scale(bitmap.width, bitmap.height)
+            masked.recycle()
+            input.recycle()
+            scaled
+        } else masked
+    }
+
+    private fun scaleBitmapIfNeeded(bitmap: Bitmap): Bitmap {
+        val max = maxOf(bitmap.width, bitmap.height)
+        return if (max > MAX_IMAGE_DIMENSION) {
+            val scale = MAX_IMAGE_DIMENSION.toFloat() / max
+            bitmap.scale((bitmap.width * scale).toInt(), (bitmap.height * scale).toInt())
+        } else bitmap
+    }
+
+    private fun applyMask(bitmap: Bitmap, result: SubjectSegmentationResult): Bitmap {
+        val w = bitmap.width
+        val h = bitmap.height
+        val output = createBitmap(w, h)
+        val canvas = Canvas(output)
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+
+        result.foregroundConfidenceMask?.let { mask ->
+            mask.rewind()
+            val pixels = IntArray(w * h)
+            for (i in pixels.indices) {
+                val confidence = mask.get()
+                pixels[i] = if (confidence > CONFIDENCE_THRESHOLD) {
+                    bitmap[i % w, i / w]
+                } else {
+                    Color.TRANSPARENT
+                }
+            }
+            val maskedBitmap = Bitmap.createBitmap(pixels, w, h, Bitmap.Config.ARGB_8888)
+            canvas.drawBitmap(maskedBitmap, 0f, 0f, Paint(Paint.ANTI_ALIAS_FLAG))
+            maskedBitmap.recycle()
+        } ?: result.foregroundBitmap?.let {
+            canvas.drawBitmap(it, 0f, 0f, Paint(Paint.ANTI_ALIAS_FLAG))
+        }
+
+        return output
+    }
+
+    fun cleanup() {
+        try {
+            segmenter.close()
+        } catch (e: Exception) {
+            Log.e(TAG, "Segmenter cleanup error", e)
+        }
+    }
+}
+
+// Coroutine extension to await a Task<T>
+suspend fun <T> com.google.android.gms.tasks.Task<T>.await(): T =
+    suspendCancellableCoroutine { cont ->
+        addOnSuccessListener { cont.resume(it) }
+        addOnFailureListener { cont.resumeWithException(it) }
+    }
+
+// Bitmap Extension function (non-leaking)
+suspend fun Bitmap.removeBackground(
+    context: Context,
+    coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
+): Bitmap {
+    val remover = BackgroundRemoverUtils(context, coroutineScope)
+    if (!remover.ensureModelReady()) {
+        throw IllegalStateException("ML Kit model not available")
+    }
+    return remover.removeBackground(this)
+}
