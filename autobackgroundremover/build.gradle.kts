@@ -16,10 +16,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
         release {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -54,7 +50,7 @@ afterEvaluate {
 
                 groupId = "com.github.GhayasAhmad"
                 artifactId = "auto-background-remover"
-                version = "1.0.4"
+                version = "1.0.5"
             }
         }
     }
