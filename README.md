@@ -1,16 +1,34 @@
-<h1 align="center">Background Remover</h1>
+<h1 align="center">Android Background Remover Library</h1>
 
-Our Android Background Remover Library offers a fast and efficient solution for removing image backgrounds. Simply provide the library with a bitmap, and it will return a new bitmap with the background removed. This library uses advanced image processing algorithms to accurately separate the subject from the background, delivering professional-quality results.
+# ✨ Android Background Remover Library – Fast, Offline AI Background Removal
 
-#### Key Features:
-&ensp;•&emsp;**Instant Background Removal:** Quickly process any bitmap image.\
-&ensp;•&emsp;**High Accuracy:** Retains sharp edges and minimizes artifacts.\
-&ensp;•&emsp;**Fast & Efficient:** Optimized for quick image processing.\
-&ensp;•&emsp;**Easy Integration:** Simple API for seamless integration into Android apps.\
-&ensp;•&emsp;**Support for Multiple Formats:** Works with a wide range of image types.\
-&ensp;•&emsp;**No External APIs:** Fully self-contained solution.
+**Android Background Remover** is a high-performance library for automatically removing backgrounds from images in Android apps.  
+Powered by advanced **AI segmentation models**, it delivers accurate, fast, and offline background removal with just a few lines of code.
 
-Ideal for e-commerce apps, social media platforms, and design tools, this library streamlines background removal without the need for complex setups or external services.
+---
+
+## 🚀 Features
+
+- ✅ **One-Line Background Removal** – Just pass a `Bitmap`, and get a clean, background-free image.
+- 🎯 **High Accuracy & Sharp Edges** – AI-powered mask generation preserves object detail with minimal artifacts.
+- ⚡ **Fast & Lightweight** – Optimized for real-time performance on Android devices.
+- 🔌 **No External API Required** – Works 100% offline — no server or cloud dependency.
+- 📦 **Easy to Integrate** – Plug-and-play with a clean, developer-friendly API.
+- 🖼️ **Supports Multiple Image Formats** – Compatible with PNG, JPEG, WebP, and more.
+- 🪄 **Optional Transparent Cropping** – Trim empty areas after background removal for cleaner results.
+- 📱 **Ideal for E-Commerce, Social Media & Photo Editing Apps**
+
+---
+
+## 💡 Use Cases
+
+- 🛍️ Product image cleanup for **e-commerce apps**
+- 📸 Profile picture editors for **social and dating apps**
+- 🎨 Background removal in **photo editing and design tools**
+- 🤖 Preprocessing for **machine learning or computer vision**
+
+---
+
 ## Gradle
 
 Add it in your root build.gradle at the end of repositories:
@@ -75,6 +93,22 @@ lifecycleScope.launch {
 
 > [!important]
 > This repository is primarily focused on ensuring the app size remains minimal and does not require the integration of additional Python libraries. For more accurate results or if you prefer solutions involving Python libraries, feel free to contact me.
+
+
+## 🚀 Let’s Work Together
+
+I’m actively open to freelance opportunities, collaborations, and contract-based Android or Compose
+Multiplatform app development projects.
+
+- 📩 **Hire Me for Your Next Project**: Whether you’re a startup, business, or individual looking to
+  build a mobile app with modern technologies like Jetpack Compose, Kotlin Multiplatform, or Android
+  native, I’m available for consulting and development work.
+- 🤝 **Business Inquiries & Partnerships**: If you’re interested in technical collaboration,
+  white-label development, or building innovative digital products together, feel free to reach out.
+- 💼 **Available for Remote Work, Short-Term Contracts, or Long-Term Engagements**
+
+---
+
 
 **Connect with me on**
 </br>
