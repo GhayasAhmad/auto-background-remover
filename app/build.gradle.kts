@@ -47,9 +47,8 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.7.0")
-    implementation(project(":autobackgroundremover"))
 
-//    implementation("com.github.GhayasAhmad:auto-background-remover:1.0.6")
+    implementation("com.github.GhayasAhmad:auto-background-remover:1.0.7")
 
 
 }
