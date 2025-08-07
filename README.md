@@ -28,7 +28,7 @@ Add the dependency
 
 ```groovy
 dependencies {
-    implementation 'com.github.GhayasAhmad:auto-background-remover:1.0.3'
+    implementation 'com.github.GhayasAhmad:auto-background-remover:1.0.7'
 }
 ```
 
@@ -40,18 +40,11 @@ Default method for simply removing the bacground from the subject from bitmap wi
 bitmap.
 
 ```kotlin
-BackgroundRemover.bitmapForProcessing(
-    bitmap,
-    object : OnBackgroundChangeListener {
-        override fun onSuccess(bitmap: Bitmap) {
-            //do what ever you want to do with this bitmap
-        }
-
-        override fun onFailed(exception: Exception) {
-            //exception
-        }
-    }
-)
+lifecycleScope.launch {
+    val resultBitmap = bitmap.removeBackground(
+        context = applicationContext
+    )
+}
 
 ```
 
@@ -64,19 +57,12 @@ Remove the empty part of the image from bitmap. `true` for removing empty part a
 and by default it is `false`.
 
 ```kotlin
-BackgroundRemover.bitmapForProcessing(
-    bitmap,
-    true,
-    object : OnBackgroundChangeListener {
-        override fun onSuccess(bitmap: Bitmap) {
-            //do what ever you want to do with this bitmap
-        }
-
-        override fun onFailed(exception: Exception) {
-            //exception
-        }
-    }
-)
+lifecycleScope.launch {
+    val resultBitmap = bitmap.removeBackground(
+        context = applicationContext,
+        trimEmptyPart = true,
+    )
+}
 
 ```
 </br>
