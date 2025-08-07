@@ -29,6 +29,8 @@ import kotlin.coroutines.suspendCoroutine
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.scale
 import androidx.core.graphics.get
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 
 class BackgroundRemoverUtils(
     private val context: Context,
@@ -55,8 +57,10 @@ class BackgroundRemoverUtils(
         )
     }
 
-    @Volatile private var isModelReady = false
-    @Volatile private var isModelDownloading = false
+    @Volatile
+    private var isModelReady = false
+    @Volatile
+    private var isModelDownloading = false
 
     suspend fun ensureModelReady(): Boolean = withContext(Dispatchers.IO) {
         if (isModelReady) return@withContext true
@@ -113,7 +117,10 @@ class BackgroundRemoverUtils(
             }
     }
 
-    suspend fun removeBackground(bitmap: Bitmap): Bitmap = withContext(Dispatchers.IO) {
+    suspend fun removeBackground(
+        bitmap: Bitmap,
+        trimEmptyPart: Boolean = false
+    ): Bitmap = withContext(Dispatchers.IO) {
         if (!isModelReady) throw IllegalStateException("Model is not ready")
 
         val input = scaleBitmapIfNeeded(bitmap)
@@ -121,12 +128,15 @@ class BackgroundRemoverUtils(
         val result = segmenter.process(inputImage).await()
         val masked = applyMask(input, result)
 
-        if (input !== bitmap) {
+        val output = if (input !== bitmap) {
             val scaled = masked.scale(bitmap.width, bitmap.height)
             masked.recycle()
             input.recycle()
             scaled
         } else masked
+
+        // 🔪 Optionally trim transparent parts
+        if (trimEmptyPart) trim(output) else output
     }
 
     private fun scaleBitmapIfNeeded(bitmap: Bitmap): Bitmap {
@@ -172,6 +182,53 @@ class BackgroundRemoverUtils(
             Log.e(TAG, "Segmenter cleanup error", e)
         }
     }
+
+    private suspend fun trim(
+        bitmap: Bitmap
+    ): Bitmap {
+        val result = CoroutineScope(Dispatchers.Default).async {
+            var firstX = 0
+            var firstY = 0
+            var lastX = bitmap.width
+            var lastY = bitmap.height
+            val pixels = IntArray(bitmap.width * bitmap.height)
+            bitmap.getPixels(pixels, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+            loop@ for (x in 0 until bitmap.width) {
+                for (y in 0 until bitmap.height) {
+                    if (pixels[x + y * bitmap.width] != Color.TRANSPARENT) {
+                        firstX = x
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (y in 0 until bitmap.height) {
+                for (x in firstX until bitmap.width) {
+                    if (pixels[x + y * bitmap.width] != Color.TRANSPARENT) {
+                        firstY = y
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (x in bitmap.width - 1 downTo firstX) {
+                for (y in bitmap.height - 1 downTo firstY) {
+                    if (pixels[x + y * bitmap.width] != Color.TRANSPARENT) {
+                        lastX = x
+                        break@loop
+                    }
+                }
+            }
+            loop@ for (y in bitmap.height - 1 downTo firstY) {
+                for (x in bitmap.width - 1 downTo firstX) {
+                    if (pixels[x + y * bitmap.width] != Color.TRANSPARENT) {
+                        lastY = y
+                        break@loop
+                    }
+                }
+            }
+            return@async Bitmap.createBitmap(bitmap, firstX, firstY, lastX - firstX, lastY - firstY)
+        }
+        return result.await()
+    }
 }
 
 // Coroutine extension to await a Task<T>
@@ -184,11 +241,15 @@ suspend fun <T> com.google.android.gms.tasks.Task<T>.await(): T =
 // Bitmap Extension function (non-leaking)
 suspend fun Bitmap.removeBackground(
     context: Context,
+    trimEmptyPart: Boolean = false,
     coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 ): Bitmap {
     val remover = BackgroundRemoverUtils(context, coroutineScope)
     if (!remover.ensureModelReady()) {
         throw IllegalStateException("ML Kit model not available")
     }
-    return remover.removeBackground(this)
+    return remover.removeBackground(
+        bitmap = this,
+        trimEmptyPart = trimEmptyPart
+        )
 }

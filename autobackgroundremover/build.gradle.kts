@@ -47,10 +47,9 @@ afterEvaluate {
         publications {
             register<MavenPublication>("release") {
                 from(components["release"])
-
                 groupId = "com.github.GhayasAhmad"
                 artifactId = "auto-background-remover"
-                version = "1.0.5"
+                version = "1.0.7"
             }
         }
     }

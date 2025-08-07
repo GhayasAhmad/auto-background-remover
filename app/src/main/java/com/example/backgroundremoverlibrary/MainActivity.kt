@@ -41,7 +41,10 @@ class MainActivity : AppCompatActivity() {
         val bitmap = binding.img.drawable.toBitmap()
         lifecycleScope.launch {
             binding.img.setImageBitmap(
-                bitmap.removeBackground(applicationContext)
+                bitmap.removeBackground(
+                    context = applicationContext,
+                    trimEmptyPart = true,
+                )
             )
         }
     }
