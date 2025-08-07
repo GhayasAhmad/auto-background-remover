@@ -1,4 +1,6 @@
 jdk:
-  - openjdk11
-before_install:
-  - ./scripts/prepareJitpackEnvironment.sh
+  - openjdk17
+build:
+  gradle:
+    tasks:
+      - :autobackgroundremover:assembleRelease
